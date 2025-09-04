@@ -16,6 +16,16 @@ const Link = ({ node, children, ...props }: any) => {
   }
   else {
     const href = props.href || node.properties?.href
+    if (href && href.startsWith('#')) {
+      const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault()
+        const targetElement = document.getElementById(href.substring(1))
+        if (targetElement)
+          targetElement.scrollIntoView({ behavior: 'smooth' })
+      }
+      return <a href={href} onClick={handleClick} className="cursor-pointer underline !decoration-primary-700 decoration-dashed">{children || 'scrollView'}</a>
+    }
+
     if(!href || !isValidUrl(href))
       return <span>{children}</span>
 
